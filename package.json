@@ -1,0 +1,38 @@
+{
+  "name": "atm_machine",
+  "version": "1.0.0",
+  "description": "This project is a Microsservice developed using Docker that simulates a ATM with some business rules restrictions.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "npx nodemon ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/lcoutojunior/atm_machine"
+  },
+  "keywords": [
+    "NodeJS",
+    "ATM Machine",
+    "ATM",
+    "Withdraw",
+    "deposit",
+    "docker",
+    "lcoutojunior",
+    "container"
+  ],
+  "author": "Luiz Meirelles",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
