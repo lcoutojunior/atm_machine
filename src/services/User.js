@@ -2,50 +2,58 @@ import { User } from "../models/User.js";
 
 export async function createUser(user) {
   const { name, birthdate, cpf } = user;
-  console.log("DENTRO DO MODEL name: ", name, " birthdate: ", " cpf: ", cpf);
   const newUser = new User({ name, birthdate, cpf });
   try {
     return await newUser.save();
   } catch (e) {
-    return e;
+    throw e;
   }
 }
 
 export async function getUsers() {
-  User.find()
-    .then((users) => users)
-    .catch((err) => err);
+  try{
+    return await User.find();
+  }catch(e){
+    throw e;
+  }
 }
 
 export async function getUserByCPF(cpf) {
-  User.find({ cpf })
-    .then((user) => {
-      if (!user) {
-        return "User not found";
-      }
-      return user;
-    })
-    .catch((err) => err);
+  try{
+    const user = await User.find({ cpf });
+    if (user.length === 0) {
+      return [{"msg": "User not found"}];
+    }
+    return user;
+  }catch(e){
+    throw e;
+  }
 }
 
-export async function updateUser(cpf) {
-  User.find({ cpf }, { new: true })
-    .then((user) => {
-      if (!user) {
-        return "User not found";
-      }
-      return user;
-    })
-    .catch((err) => err);
+export async function updateUserByCPF(user) {
+  try{
+    const userFind = await User.find({"cpf": user.cpf})
+    if (userFind.length === 0) {
+      return [{"msg": "User not found"}];
+    }
+    const userUpdate = await User.updateOne({"cpf": user.cpf}, user);
+    const userUpdated = await User.find({"cpf": user.cpf})
+    return [userUpdate, ...userUpdated];
+  }catch(e){
+    throw e;
+  }  
 }
 
-export async function deleteUser(cpf) {
-  User.deleteOne({ cpf })
-    .then((user) => {
-      if (!user) {
-        return "User not found";
-      }
-      return user;
-    })
-    .catch((err) => err);
+export async function deleteUserByCPF(user) {
+  try{
+    const userFind = await User.find({"cpf": user.cpf})
+    if (userFind.length === 0) {
+      return [{"msg": "User not found"}];
+    }
+    const userDeleted = await User.deleteOne({ "cpf": user.cpf }); 
+    return[userDeleted, ...userFind];
+  }catch(e){
+    throw e;
+  }
+  
 }
