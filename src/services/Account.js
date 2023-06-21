@@ -1,4 +1,5 @@
 import Account from "../models/Account.js";
+import * as StatementService from "../services/Statement.js";
 
 export async function createAccount(account) {
     const { account_type, balance, users: users_id } = account;
@@ -42,7 +43,11 @@ export async function getAccountById(account_id) {
     }
 }
 
-export async function getMoviments(account_id) {}
+export async function getStatements(account_id) {
+    const account = await getAccountById(account_id);
+    const statements = await StatementService.get(account_id);
+    return [account, statements];
+}
 
 export async function deposit(body) {
     const { account_id, value } = body;
@@ -56,7 +61,7 @@ export async function deposit(body) {
         }
         const newBalance = account.balance + value;
         await Account.updateOne({ _id: account_id }, { balance: newBalance });
-        //TODO:Statement.insert '{deposit_value': value, timestamps}'
+        await StatementService.insertCredit(value, account_id);
         return await Account.find({ _id: account_id });
     } catch (e) {
         throw e;
@@ -94,7 +99,7 @@ export async function debit(account, value) {
     try {
         account.balance -= value;
         await Account.updateOne({ _id: account._id }, account);
-        //TODO:Statement.insert '{debit_value': value, timestamps}'
+        await StatementService.insertDebit(value, account._id);
         return await Account.find({ _id: account._id });
     } catch (e) {
         throw e;
