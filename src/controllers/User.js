@@ -8,7 +8,7 @@ router.post("/user/create", async function (req, res) {
     res.status(200).send(createUser);
   } catch (e) {
     console.error(e);
-    res.status(200).send('Oops... Algo deu errado.');
+    res.status(200).send('Oops... Something get wrong.');
   }
 });
 
@@ -18,7 +18,7 @@ router.get("/user/get", async function (req, res) {
     res.status(200).send(users);
   } catch (e) {
     console.error(e);
-    res.status(200).send('Oops... Algo deu errado.');
+    res.status(200).send('Oops... Something get wrong.');
   }
 });
 
@@ -28,7 +28,7 @@ router.get("/user/get/cpf/:cpf", async function (req, res) {
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
-    res.status(200).send('Oops... Algo deu errado.');
+    res.status(200).send('Oops... Something get wrong.');
   }
 });
 
@@ -38,7 +38,7 @@ router.put("/user/update", async function (req, res) {
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
-    res.status(200).send('Oops... Algo deu errado.');
+    res.status(200).send('Oops... Something get wrong.');
   }
 });
 
@@ -48,7 +48,7 @@ router.delete("/user/delete", async function (req, res) {
     res.status(200).send(user);
   } catch (e) {
     console.error(e);
-    res.status(200).send('Oops... Algo deu errado.');
+    res.status(200).send('Oops... Something get wrong.');
   }
 });
 
