@@ -6,7 +6,7 @@ const accountSchema = new Schema(
   {
     account_type: { type: String, required: true, enum: ['poupance','bank_account'] },
     balance: { type: Number, required: true },
-    users: {
+    users_id: {
       type: [mongoose.ObjectId],
       ref: 'User',
       required: true
@@ -17,4 +17,4 @@ const accountSchema = new Schema(
 
 const Account = mongoose.model("Account", accountSchema);
 
-exports.module = Account;
+export default Account;

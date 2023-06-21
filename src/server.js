@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import UserController from './controllers/User.js';
+import AccountController from './controllers/Account.js';
 import {connectDB} from "./db/Connection.js";
 import dotenv from 'dotenv';
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(UserController);
+app.use(AccountController);
 
 connectDB().then(()=>{
   app.listen(port, () => {

@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "npx nodemon ./src/server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --verbose false ./tests/user.test.js"
+    "test_user": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --verbose true ./tests/user.test.js",
+    "test_account": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --verbose true ./tests/account.test.js"
   },
   "repository": {
     "type": "git",
