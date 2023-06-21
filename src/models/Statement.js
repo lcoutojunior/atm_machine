@@ -17,4 +17,4 @@ const statementSchema = new Schema(
 
 const Statement = mongoose.model("Statement", statementSchema);
 
-exports.module = Statement;
+export default Statement;
