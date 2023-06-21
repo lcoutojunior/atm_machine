@@ -1,5 +1,8 @@
 import Account from "../models/Account.js";
 import * as StatementService from "../services/Statement.js";
+import * as Redis from "../db/Redis.js";
+
+const redisClient = await Redis.redisClient();
 
 export async function createAccount(account) {
     const { account_type, balance, users: users_id } = account;
@@ -11,13 +14,11 @@ export async function createAccount(account) {
         if (account_type === "poupance" || account_type === "bank_account") {
             const newAccount = new Account({ account_type, balance, users_id });
             return await newAccount.save();
-        }else{
+        } else {
             return [
                 { msg: "account_type can only be poupance or bank_account" },
             ];
-            
         }
-
     } catch (e) {
         throw e;
     }
@@ -46,7 +47,17 @@ export async function getAccountById(account_id) {
 export async function getStatements(account_id) {
     const account = await getAccountById(account_id);
     const statements = await StatementService.get(account_id);
-    return [account, statements];
+    const statementsRedis = await redisClient.get("statements");
+    if (statementsRedis === null) {
+        await redisClient.set(
+            "statements",
+            JSON.stringify([account, statements]),
+            { EX: 7, NX: true }
+        );
+        return [account, statements]
+    } else {
+        return JSON.parse(statementsRedis);
+    }
 }
 
 export async function deposit(body) {
@@ -88,7 +99,7 @@ export async function withdraw(body) {
         if (value > account.balance) {
             return [{ msg: "Insufficient funds" }];
         }
-        
+
         return getCells(account, value);
     } catch (e) {
         throw e;

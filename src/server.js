@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import UserController from './controllers/User.js';
 import AccountController from './controllers/Account.js';
-import {connectDB} from "./db/Connection.js";
+import {connectMongo} from "./db/Mongo.js";
+import {connectRedis} from "./db/Redis.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -18,11 +19,13 @@ app.use(bodyParser.json());
 app.use(UserController);
 app.use(AccountController);
 
-connectDB().then(()=>{
+connectRedis();
+
+connectMongo().then(()=>{
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   })
 }).catch((e) => console.error(e));
-  
+
 
   
